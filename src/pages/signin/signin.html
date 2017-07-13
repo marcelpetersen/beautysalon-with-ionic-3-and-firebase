@@ -1,0 +1,43 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <!--
+
+  <h1 text-center>
+    <ion-icon class="auth-icon" name="ionic" color="primary"></ion-icon>
+  </h1>  
+  -->
+
+  <ion-card class="card">
+      <img src="assets/images/beautysalon.png"/>    
+  </ion-card>
+
+  <form [formGroup]="signinForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+    <ion-item>
+      <ion-icon name="mail" item-left color="primary"></ion-icon>
+      <ion-input type="email" placeholder="Email" formControlName="email" text-lowercase minlenght="1" required value=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="lock" item-left color="primary"></ion-icon>
+      <ion-input type="password" placeholder="Senha" formControlName="password" value=""></ion-input>
+    </ion-item>
+
+    <button ion-button round block text-center type="submit" [disabled]="signinForm.invalid">Entrar</button>    
+  </form>
+
+  <br>
+  <button ion-button round block clear text-center (click)="onHomepage()">Acesso Fácil</button>
+  <button ion-button round block clear text-center (click)="onSignup()">Registre-se aqui!</button>
+
+</ion-content>
+  

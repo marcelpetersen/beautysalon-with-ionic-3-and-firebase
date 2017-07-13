@@ -1,0 +1,42 @@
+<!--
+  Generated template for the CategoryDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Detalhes da Categoria</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding text-uppercase>
+  <ion-card>
+
+    <ion-card-header>
+      <h3 text-center *ngIf="selectedItem">
+        <b>{{selectedItem.name}}</b>
+      </h3>      
+    </ion-card-header>          
+
+    <img [src]="selectedItem.photo || 'assets/images/no-image.png'">
+
+    <ion-card-content>
+      <ion-list>
+        <ion-label>Nome: <b>{{selectedItem.name}}</b></ion-label>
+        <ion-label>Preço: <b>R$ {{selectedItem.price}}</b></ion-label>
+        <ion-label>State: <b>{{selectedItem.state}}</b></ion-label>
+
+        <button ion-button block icon-center text-center>
+          <ion-icon name="print"></ion-icon>
+        </button> 
+                
+      </ion-list>
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>

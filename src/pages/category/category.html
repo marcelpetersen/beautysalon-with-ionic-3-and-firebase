@@ -1,0 +1,171 @@
+<!--
+  Generated template for the CategoryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-user-add e view-user-list -->
+    <ion-segment [(ngModel)]="view">
+
+      <ion-segment-button value="Cadastrar Categoria">
+        <!-- <ion-icon name="add-circle" item-top color="primary"></ion-icon> -->
+        Cadastrar
+      </ion-segment-button>
+      <ion-segment-button value="Categorias Ativas">
+        <!-- <ion-icon name="checkmark-circle" item-center color="primary"></ion-icon>  -->
+        Ativos
+      </ion-segment-button>
+      <ion-segment-button value="Categorias Bloqueadas">
+        <!-- <ion-icon name="close-circle" item-center color="primary"></ion-icon>  -->
+        Bloqueados
+      </ion-segment-button>
+
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
+  </ion-toolbar>  
+
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Switch vai ficar ouvindo a nossa propriedade "[(ngModel)]="view"" -->
+  <div [ngSwitch]="view">
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'category-add' " -->
+    <ion-list no-lines *ngSwitchCase="'Cadastrar Categoria'">
+        <form [formGroup]="categoryForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Nome da categoria" formControlName="name" text-uppercase minlenght="3" required></ion-input> <!-- [(ngModel)]="categories.name" -->
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Descrição da categoria" formControlName="description" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="cash" item-left color="primary"></ion-icon>
+            <ion-input type="number" placeholder="Preço da mão de obra" formControlName="price" text-uppercase minlenght="1"></ion-input> <!-- [(ngModel)]="categories.price" -->
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Dados complementares" formControlName="observation" text-uppercase></ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>
+            <ion-select placeholder="Status" formControlName="state" text-uppercase minlenght="1" required>
+              <ion-option value="ativo">ATIVO</ion-option> <!-- default | selected | checked | checked="true" | selected="true"-->
+              <ion-option value="bloqueado">BLOQUEADO</ion-option>
+            </ion-select>  
+          </ion-item>         
+
+          <!--
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+            <ion-select placeholder="Status" formControlName="state" text-uppercase minlenght="1" required>
+              <ion-option *ngFor="let state of statesgeneral | async" [value]="state.name">{{ state.name }}</ion-option>
+            </ion-select>  
+          </ion-item>
+          -->
+
+          <br>
+          <button ion-button round block type="submit" [disabled]="categoryForm.invalid">Salvar</button>
+
+        </form>
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'categories' " -->
+    <ion-list no-lines *ngSwitchCase="'Categorias Ativas'">
+      <ion-item-sliding *ngFor="let category of categories | async">
+                
+        <ion-item *ngIf="category.state === 'ativo'">
+          <ion-avatar item-start (click)="onCategoryDetails(category)">
+            <img [src]="category.photo || 'assets/images/no-image.png'">
+          </ion-avatar>          
+          <h3 text-uppercase>Categoria: <b>{{ category.name }}</b></h3>
+          <h3 text-uppercase>Preço: <b>R$ {{ category.price }}</b></h3>
+          <h3 text-uppercase>Status: <b>{{ category.state }}</b></h3>
+        </ion-item>
+
+      <ion-item-options side="left">      
+        <button ion-button color="primary" (click)="onCategoryUpdateFoto(category)">
+          <ion-icon name="images"></ion-icon>
+          Atualizar
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="onCategoryUpdate(category)">
+          <ion-icon name="document"></ion-icon>
+          Atualizar
+        </button>
+
+        <button ion-button color="danger" (click)="onCategoryDelete(category)">        
+          <ion-icon name="trash"></ion-icon>
+          Deletar
+        </button>
+      </ion-item-options>       
+
+      </ion-item-sliding>      
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'categories' " -->
+    <ion-list no-lines *ngSwitchCase="'Categorias Bloqueadas'">
+      <ion-item-sliding *ngFor="let category of categories | async">
+
+        <ion-item *ngIf="category.state === 'bloqueado'">
+          <ion-avatar item-start (click)="onCategoryDetails(category)">
+            <img [src]="category.photo || 'assets/images/no-image.png'">
+          </ion-avatar>          
+          <h3 text-uppercase>Categoria: <b>{{ category.name }}</b></h3>
+          <h3 text-uppercase>Preço: <b>R$ {{ category.price }}</b></h3>
+          <h3 text-uppercase>Status: <b>{{ category.state }}</b></h3> 
+
+          <!-- <p text-uppercase item-left class="color-status-bloqueado">{{ category.state }}</p>  -->
+        </ion-item>
+
+      <ion-item-options side="left">      
+        <button ion-button color="primary" (click)="onCategoryUpdateFoto(category)">
+          <ion-icon name="images"></ion-icon>
+          Atualizar
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="onCategoryUpdate(category)">
+          <ion-icon name="document"></ion-icon>
+          Atualizar
+        </button>
+
+        <button ion-button color="danger" (click)="onCategoryDelete(category)">        
+          <ion-icon name="trash"></ion-icon>
+          Deletar
+        </button>
+
+      </ion-item-options>       
+
+      </ion-item-sliding>      
+    </ion-list>
+
+  </div>
+
+  <ion-refresher (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+</ion-content>
+

@@ -1,0 +1,192 @@
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-user-add e view-user-list -->
+    <ion-segment [(ngModel)]="view">
+
+      <ion-segment-button value="Cadastrar Contato">
+        <!-- <ion-icon name="add-circle" item-top color="primary"></ion-icon> -->
+        Cadastrar 
+      </ion-segment-button>
+      <ion-segment-button value="Contatos Ativos">
+        <!-- <ion-icon name="checkmark-circle" item-center color="primary"></ion-icon>  -->
+        Ativos
+      </ion-segment-button>
+      <ion-segment-button value="Contatos Bloqueados">
+        <!-- <ion-icon name="close-circle" item-center color="primary"></ion-icon>  -->
+        Bloqueados
+      </ion-segment-button>
+
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
+  </ion-toolbar> 
+  
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Switch vai ficar ouvindo a nossa propriedade "[(ngModel)]="view"" -->
+  <div [ngSwitch]="view">
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'user-add' " -->
+    <ion-list no-lines *ngSwitchCase="'Cadastrar Contato'">
+      <ion-item>
+
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+          <ion-item>
+            <ion-icon name="person" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Nome" formControlName="name" text-uppercase required minlenght="3"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="at" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Apelido" formControlName="username" text-uppercase required minlenght="3"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="mail" item-left color="primary"></ion-icon>
+            <ion-input type="email" placeholder="Email" formControlName="email" text-lowercase required minlenght="1"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="lock" item-left color="primary"></ion-icon>
+            <ion-input type="password" placeholder="Senha" formControlName="password" required minlenght="6"></ion-input>
+          </ion-item>
+
+          <!--
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>
+            <ion-select formControlName="level" placeholder="NÍVel" text-uppercase required minlenght="1">
+              <ion-option value="administrador">ADMINISTRADOR</ion-option>
+              <ion-option value="operador">OPERADOR</ion-option>
+              <ion-option value="visitante" selected="true">VISITANTE</ion-option>
+            </ion-select>  
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>
+            <ion-select formControlName="state" placeholder="Status" text-uppercase required minlenght="1">
+              <ion-option value="ativo" selected="true">ATIVO</ion-option>
+              <ion-option value="bloqueado">BLOQUEADO</ion-option>
+            </ion-select>  
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+            <ion-select formControlName="level" placeholder="Nível" text-uppercase minlenght="1" required>
+              <ion-option *ngFor="let level of stateslevel | async" [value]="level.name">{{ level.name }}</ion-option>
+            </ion-select>  
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+            <ion-select formControlName="state" placeholder="Status" text-uppercase minlenght="1" required>
+              <ion-option *ngFor="let state of statesgeneral | async" [value]="state.name">{{ state.name }}</ion-option>
+            </ion-select>  
+          </ion-item>
+          -->
+
+          <br>
+          <button ion-button round block type="submit" [disabled]="signupForm.invalid">Salvar</button>
+
+        </form>
+
+      </ion-item>
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'users' " -->
+    <ion-list no-lines *ngSwitchCase="'Contatos Ativos'">
+      <ion-item-sliding *ngFor="let user of users | async">
+
+        <ion-item *ngIf="user.state === 'ativo'">              
+          <ion-avatar item-left (click)="onUserDetails(user)">
+            <img [src]="user.photo || 'assets/images/no-image.png'">
+          </ion-avatar>
+          <h3 text-uppercase>Nome: <b>{{ user.name }}</b></h3>
+          <h3 text-uppercase>Email: <b>{{ user.email }}</b></h3>
+          <h3 text-uppercase>Nível: <b>{{ user.level }}</b></h3>
+          <h3 text-uppercase>Status: <b>{{ user.state }}</b></h3>
+        </ion-item>
+
+        <ion-item-options side="left">
+          <button ion-button color="primary">
+            <ion-icon name="text"></ion-icon>
+            Mensagem
+          </button>
+          <button ion-button color="secondary">
+            <ion-icon name="call"></ion-icon>
+            Ligar
+          </button>
+          <button ion-button color="primary">
+            <ion-icon name="mail"></ion-icon>
+            Email
+          </button>
+        </ion-item-options>
+
+        <ion-item-options side="right">
+          <button ion-button color="primary" (click)="onUserUpdate(user)">
+            <ion-icon name="create"></ion-icon>
+            Atualizar
+          </button>
+          <button ion-button color="danger" (click)="onUserDelete(user)">
+            <ion-icon name="trash"></ion-icon>
+            Deletar
+          </button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'users' " -->
+    <ion-list no-lines *ngSwitchCase="'Contatos Bloqueados'">
+      <ion-item-sliding *ngFor="let user of users | async">
+
+        <ion-item *ngIf="user.state === 'bloqueado'">              
+          <ion-avatar item-left (click)="onUserDetails(user)">
+            <img [src]="user.photo || 'assets/images/no-image.png'">
+          </ion-avatar>
+          <h3 text-uppercase>Nome: <b>{{ user.name }}</b></h3>
+          <h3 text-uppercase>Email: <b>{{ user.email }}</b></h3>
+          <h3 text-uppercase>Nível: <b>{{ user.level }}</b></h3>
+          <h3 text-uppercase>Status: <b>{{ user.state }}</b></h3>
+        </ion-item>
+
+        <ion-item-options side="left">
+          <button ion-button color="primary">
+            <ion-icon name="text"></ion-icon>
+            Mensagem
+          </button>
+          <button ion-button color="secondary">
+            <ion-icon name="call"></ion-icon>
+            Ligar
+          </button>
+          <button ion-button color="primary">
+            <ion-icon name="mail"></ion-icon>
+            Email
+          </button>
+        </ion-item-options>
+
+        <ion-item-options side="right">
+          <button ion-button color="primary" (click)="onUserUpdate(user)">
+            <ion-icon name="create"></ion-icon>
+            Atualizar
+          </button>
+          <button ion-button color="danger" (click)="onUserDelete(user)">
+            <ion-icon name="trash"></ion-icon>
+            Deletar
+          </button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,86 @@
+<!--
+  Generated template for the UserProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-user-add e view-user-list -->
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="Atualizar Foto">
+        Atualizar
+      </ion-segment-button>
+      <!--
+      <ion-segment-button value="User List">
+        User List
+      </ion-segment-button>
+      -->
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <user-info [user]="currentUser"></user-info>
+
+  <button ion-button round block color="primary" (click)="canEdit = !canEdit">Clique aqui ...</button>
+
+  <form (ngSubmit)="onSubmit($event)" *ngIf="canEdit" #profileForm="ngForm">
+
+    <ion-item>
+      <ion-icon name="person" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Nome" name="name" [(ngModel)]="currentUser.name" text-uppercase minlenght="3" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="at" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Apelido" name="username" [(ngModel)]="currentUser.username" text-uppercase minlenght="3" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="image" item-left color="primary"></ion-icon>
+      <input type="file" accept="image/*" (change)="onPhoto($event)">
+    </ion-item>
+
+    <!--
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>
+      <ion-select name="level" placeholder="Nível" [(ngModel)]="currentUser.level" text-uppercase required minlenght="1">
+        <ion-option value="Administrator">ADMINISTRADOR</ion-option>
+        <ion-option value="Operator">OPERADOR</ion-option>
+        <ion-option value="Visitor">VISITANTE</ion-option>
+      </ion-select>  
+    </ion-item>  
+
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>
+      <ion-select name="state" placeholder="Status" [(ngModel)]="currentUser.state" text-uppercase required minlenght="1">
+        <ion-option value="Active">ATIVO</ion-option>
+        <ion-option value="Block">BLOQUEADO</ion-option>
+      </ion-select>  
+    </ion-item>    
+    -->
+    
+    <progress-bar *ngIf="uploadProgress" [progress]="uploadProgress"></progress-bar>
+
+    <ion-item>
+      <ion-card>
+        <!-- <img [src]="image" *ngIf="image" style="margin: 10px;"> -->
+        <img [src]="image" *ngIf="image">
+      </ion-card>        
+    </ion-item> 
+
+    <br>
+    
+    <button ion-button round block type="submit" [disabled]="profileForm.form.invalid">Salvar</button>
+
+  </form>
+
+</ion-content>

@@ -1,0 +1,144 @@
+<!--
+  Generated template for the DriverEditPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-user-add e view-user-list -->
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="Atualizar Motorista">
+        Atualizar
+      </ion-segment-button>
+      <!--
+      <ion-segment-button value="Category List">
+        Driver List
+      </ion-segment-button>
+      -->
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <!-- <button ion-button block clear (click)="canEdit = !canEdit">Exibir/Ocultar formulário</button> -->
+
+  <form [formGroup]="driverForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Nome" formControlName="name" [(ngModel)]="currentDriver.name" text-uppercase required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="number" placeholder="RG" formControlName="rg" [(ngModel)]="currentDriver.rg" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="number" placeholder="CNH" formControlName="cnh" [(ngModel)]="currentDriver.cnh" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="number" placeholder="CPF" formControlName="cpf" [(ngModel)]="currentDriver.cpf" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="number" placeholder="CEP" formControlName="cep" [(ngModel)]="currentDriver.cep" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="UF" formControlName="uf" [(ngModel)]="currentDriver.uf" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Estado" formControlName="estado" [(ngModel)]="currentDriver.estado" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Cidade" formControlName="cidade" [(ngModel)]="currentDriver.cidade" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Bairro" formControlName="bairro" [(ngModel)]="currentDriver.bairro" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Logradouro" formControlName="logradouro" [(ngModel)]="currentDriver.logradouro" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="number" placeholder="Número" formControlName="numero" [(ngModel)]="currentDriver.numero" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Complemento" formControlName="complemento" [(ngModel)]="currentDriver.complemento" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="tel" placeholder="Tel Residência" formControlName="residencia" [(ngModel)]="currentDriver.residencia" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="tel" placeholder="Tel Celular" formControlName="celular" [(ngModel)]="currentDriver.celular" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="tel" placeholder="Tel Comercial" formControlName="comercial" [(ngModel)]="currentDriver.comercial" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="email" placeholder="Email" formControlName="email" [(ngModel)]="currentDriver.email" text-lowercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Dados Complementares" formControlName="observacao" [(ngModel)]="currentDriver.observacao" text-uppercase></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>
+      <ion-select formControlName="state" placeholder="State" [(ngModel)]="currentDriver.state" text-uppercase required>
+        <ion-option value="ativo">ATIVO</ion-option>
+        <ion-option value="bloqueado">BLOQUEADO</ion-option>
+      </ion-select>  
+    </ion-item>  
+
+    <!--    
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+      <ion-select formControlName="state" placeholder="State" [(ngModel)]="currentDriver.state" text-uppercase minlenght="1" required>
+        <ion-option *ngFor="let state of statesgeneral | async" [value]="state.name">{{ state.name }}</ion-option>
+      </ion-select>  
+    </ion-item>
+    -->
+
+    <progress-bar *ngIf="uploadProgress" [progress]="uploadProgress"></progress-bar>
+
+    <br>
+    <button ion-button round block color="primary" type="submit" [disabled]="driverForm.invalid">Salvar</button>
+
+  </form>
+
+</ion-content>

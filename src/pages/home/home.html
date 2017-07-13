@@ -1,0 +1,69 @@
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-chats e view-users -->
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="chats">
+        Chats
+      </ion-segment-button>
+      <ion-segment-button value="users">
+        Users
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+      <!-- Event Bind -->
+    <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Switch vai ficar ouvindo a nossa propriedade "[(ngModel)]="view"" -->
+  <div [ngSwitch]="view">
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'chats' " -->
+    <ion-list *ngSwitchCase="'chats'" no-lines>
+
+      <!-- "let chat of chats" é um tipo de "Observable" devemos colocar o "| async" -->
+      <button ion-item *ngFor="let chat of chats | async" (click)="onChatOpen(chat)">
+        <ion-avatar item-left>
+          <img [src]="chat.photo || 'assets/images/no-photo.jpg'">
+        </ion-avatar>
+        <h2>{{ chat.title }}</h2>
+        
+        <!-- Exemplo em Angular 2 -->
+        <!--
+        <p *ngIf="chat.lastMessage">{{ chat.timestamp | date:'dd/MM/y H:mm' }} - {{ chat.lastMessage }}</p>
+          <p *ngIf="!chat.lastMessage">No messages</p>
+        -->
+
+        <!-- Exemplo em Angular 4 -->
+        <p *ngIf="chat.lastMessage; else customMessage">{{ chat.timestamp | date:'dd/MM/y H:mm' }} - {{ chat.lastMessage }}</p>
+        <ng-template #customMessage>
+          <p>No messages</p>
+        </ng-template>
+      </button>
+
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'users' " -->
+    <ion-list *ngSwitchCase="'users'" no-lines>
+
+      <button ion-item *ngFor="let user of users | async" (click)="onChatCreate(user)">
+        <ion-avatar item-left>
+          <img [src]="user.photo || 'assets/images/no-photo.jpg'">
+        </ion-avatar>
+        {{ user.name }}
+      </button>
+
+    </ion-list>
+
+  </div>
+  
+</ion-content>

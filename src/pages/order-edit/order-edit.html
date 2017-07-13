@@ -1,0 +1,99 @@
+<!--
+  Generated template for the OrderEditPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-order-add e view-order-list -->
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="Atualizar Serviço">
+        Atualizar
+      </ion-segment-button>
+      <!--
+      <ion-segment-button value="Order List">
+        Order List
+      </ion-segment-button>
+      -->
+    </ion-segment>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content padding>
+
+  <!-- <button ion-button block clear (click)="canEdit = !canEdit">Exibir/Ocultar formulário</button> -->
+
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+      <ion-select formControlName="category" placeholder="Categoria" [(ngModel)]="currentOrder.category">
+        <ion-option *ngFor="let category of categories | async" [value]="category.name" text-uppercase minlenght="1" required>{{ category.name }}</ion-option> <!-- [(ngModel)]="categories.name" -->     
+      </ion-select>  
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>
+      <ion-select formControlName="client" placeholder="Cliente" [(ngModel)]="currentOrder.client">
+        <ion-option *ngFor="let client of customers | async" [value]="client.name" text-uppercase minlenght="1" required>{{ client.name }}</ion-option>
+      </ion-select>  
+    </ion-item>          
+
+    <!--
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>
+      <ion-select formControlName="driver" placeholder="Motorista" [(ngModel)]="currentOrder.driver">
+        <ion-option *ngFor="let driver of drivers | async" [value]="driver.name" text-uppercase minlenght="1" required>{{ driver.name }}</ion-option>
+      </ion-select>  
+    </ion-item>  
+    -->
+  
+    <ion-item>
+      <ion-icon name="chatbubbles" item-left color="primary"></ion-icon>
+      <ion-input type="text" placeholder="Descrição" formControlName="description" [(ngModel)]="currentOrder.description" text-uppercase minlenght="3" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="calendar" item-left color="primary"></ion-icon>
+      <ion-datetime placeholder="Data" formControlName="date" [(ngModel)]="currentOrder.date" displayFormat="DD/MMMM/YYYY" pickerFormat="DD MMMM YYYY" text-uppercase minlenght="1" required></ion-datetime>
+    </ion-item>        
+
+    <ion-item>
+      <ion-icon name="clock" item-left color="primary"></ion-icon>
+      <ion-datetime placeholder="Hora" formControlName="time" [(ngModel)]="currentOrder.time" displayFormat="HH:mm" pickerFormat="HH mm" text-uppercase minlenght="1" required></ion-datetime>
+    </ion-item> 
+
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>
+      <ion-select formControlName="state" placeholder="Status" [(ngModel)]="currentOrder.state" text-uppercase minlenght="1" required>
+        <ion-option value="agendado">AGENDADO</ion-option>
+        <ion-option value="executado">EXECUTADO</ion-option>
+        <ion-option value="cancelado">CANCELADO</ion-option>
+      </ion-select>  
+    </ion-item>
+
+    <!--
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+      <ion-select formControlName="state" placeholder="Status" [(ngModel)]="currentOrder.state" text-uppercase minlenght="1" required>
+        <ion-option *ngFor="let state of statesorder | async" [value]="state.name">{{ state.name }}</ion-option>
+      </ion-select>  
+    </ion-item>
+    -->
+
+    <progress-bar *ngIf="uploadProgress" [progress]="uploadProgress"></progress-bar>
+
+    <br>
+    <button ion-button round block color="primary" type="submit" [disabled]="orderForm.invalid">Salvar</button>
+
+  </form>
+
+</ion-content>
+

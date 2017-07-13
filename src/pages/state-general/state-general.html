@@ -1,0 +1,152 @@
+<!--
+  Generated template for the StateGeneralPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-user-add e view-user-list -->
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="Cadastrar Status">
+        Cadastrar
+      </ion-segment-button>
+      <ion-segment-button value="Status Ativos">
+        Ativos
+      </ion-segment-button>
+      <ion-segment-button value="Status Bloqueados">
+        Bloqueados
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
+  </ion-toolbar>  
+
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Switch vai ficar ouvindo a nossa propriedade "[(ngModel)]="view"" -->
+  <div [ngSwitch]="view">
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'category-add' " -->
+    <ion-list no-lines *ngSwitchCase="'Cadastrar Status'">
+        <form [formGroup]="stateGeneralForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+          <ion-item>
+            <ion-icon name="chatboxes" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Nome" formControlName="name" text-uppercase minlenght="3" required></ion-input> <!-- [(ngModel)]="categories.name" -->
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="chatbubbles" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Descrição" formControlName="description" text-uppercase minlenght="3" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>
+            <ion-select formControlName="state" placeholder="State" text-uppercase minlenght="1" required>
+              <ion-option value="ativo" selected="true">ATIVO</ion-option>
+              <ion-option value="bloqueado">BLOQUEADO</ion-option>
+            </ion-select>  
+          </ion-item>         
+
+          <!--
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+            <ion-select placeholder="State" formControlName="state" text-uppercase minlenght="1" required>
+              <ion-option *ngFor="let state of statesgeneral | async" [value]="state.name">{{ state.name }}</ion-option>
+            </ion-select>  
+          </ion-item>
+          -->          
+
+          <br>
+          <button ion-button round block type="submit" [disabled]="stateGeneralForm.invalid">Salvar</button>
+
+        </form>
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'categories' " -->
+    <ion-list no-lines *ngSwitchCase="'Status Ativos'">
+      <ion-item-sliding *ngFor="let state of statesgeneral | async">
+
+        <ion-item *ngIf="state.state === 'ativo'">
+          <ion-avatar item-left (click)="onStateGeneralDetails(state)">
+            <img [src]="state.photo || 'assets/images/no-image.png'">
+          </ion-avatar>          
+          <h3 text-uppercase>Nome: <b>{{ state.name }}</b></h3>
+          <h3 text-uppercase>Status: <b>{{ state.state }}</b></h3>
+        </ion-item>
+
+      <ion-item-options side="left">      
+        <button ion-button color="primary" (click)="onStateGeneralUpdateFoto(state)">
+          <ion-icon name="images"></ion-icon>
+          Atualizar
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="onStateGeneralUpdate(state)">
+          <ion-icon name="document"></ion-icon>
+          Atualizar
+        </button>
+
+        <button ion-button color="danger" (click)="onStateGeneralDelete(state)">        
+          <ion-icon name="trash"></ion-icon>
+          Deletar
+        </button>
+
+      </ion-item-options>       
+
+      </ion-item-sliding>      
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'categories' " -->
+    <ion-list no-lines *ngSwitchCase="'Status Bloqueados'">
+      <ion-item-sliding *ngFor="let state of statesgeneral | async">
+
+        <ion-item *ngIf="state.state === 'bloqueado'">
+          <ion-avatar item-left (click)="onStateGeneralDetails(state)">
+            <img [src]="state.photo || 'assets/images/no-image.png'">
+          </ion-avatar>          
+          <h3 text-uppercase>Nome: <b>{{ state.name }}</b></h3>
+          <h3 text-uppercase>Status: <b>{{ state.state }}</b></h3>
+        </ion-item>
+
+      <ion-item-options side="left">      
+        <button ion-button color="primary" (click)="onStateGeneralUpdateFoto(state)">
+          <ion-icon name="images"></ion-icon>
+          Atualizar
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="onStateGeneralUpdate(state)">
+          <ion-icon name="document"></ion-icon>
+          Atualizar
+        </button>
+
+        <button ion-button color="danger" (click)="onStateGeneralDelete(state)">        
+          <ion-icon name="trash"></ion-icon>
+          Deletar
+        </button>
+
+      </ion-item-options>       
+
+      </ion-item-sliding>      
+    </ion-list>
+
+  </div>
+
+  <ion-refresher (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+</ion-content>

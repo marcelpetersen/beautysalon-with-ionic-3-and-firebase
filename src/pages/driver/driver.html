@@ -1,0 +1,233 @@
+<!--
+  Generated template for the DriverPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-driver-add e view-driver-list -->
+    <ion-segment [(ngModel)]="view">
+
+      <ion-segment-button value="Cadastrar Motorista">
+        <!-- <ion-icon name="add-circle" item-top color="primary"></ion-icon> -->
+        Cadastrar
+      </ion-segment-button>
+      <ion-segment-button value="Motoristas Ativos">
+        <!-- <ion-icon name="checkmark-circle" item-center color="primary"></ion-icon>  -->
+        Ativos
+      </ion-segment-button>
+      <ion-segment-button value="Motoristas Bloqueados">
+        <!-- <ion-icon name="close-circle" item-center color="primary"></ion-icon>  -->
+        Bloqueados
+      </ion-segment-button>
+
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
+  </ion-toolbar> 
+
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Switch vai ficar ouvindo a nossa propriedade "[(ngModel)]="view"" -->
+  <div [ngSwitch]="view">
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'driver-add' " -->
+    <ion-list no-lines *ngSwitchCase="'Cadastrar Motorista'">
+        <form [formGroup]="driverForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+          <ion-item>
+            <ion-icon name="chatboxes" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Nome" formControlName="name" text-uppercase minlenght="3" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="number" placeholder="RG" formControlName="rg" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="number" placeholder="CNH" formControlName="cnh" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="number" placeholder="CPF" formControlName="cpf" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="number" placeholder="CEP" formControlName="cep" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="UF" formControlName="uf" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Estado" formControlName="estado" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Cidade" formControlName="cidade" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Bairro" formControlName="bairro" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Logradouro" formControlName="logradouro" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="number" placeholder="Número" formControlName="numero" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Complemento" formControlName="complemento" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="tel" placeholder="Tel Residência" formControlName="residencia" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="tel" placeholder="Tel Celular" formControlName="celular" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="tel" placeholder="Tel Comercial" formControlName="comercial" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="email" placeholder="Email" formControlName="email" text-lowercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Dados Complementares" formControlName="observacao" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>
+            <ion-select formControlName="state" placeholder="State" text-uppercase minlenght="1" required>
+              <ion-option value="ativo" selected="true">ATIVO</ion-option>
+              <ion-option value="bloqueado">BLOQUEADO</ion-option>
+            </ion-select>  
+          </ion-item>
+
+          <!--
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+            <ion-select formControlName="state" placeholder="State" text-uppercase minlenght="1" required>
+              <ion-option *ngFor="let state of statesgeneral | async" [value]="state.name">{{ state.name }}</ion-option>
+            </ion-select>  
+          </ion-item>
+          -->
+                    
+          <br>
+          <button ion-button round block type="submit" [disabled]="driverForm.invalid">Salvar</button>
+
+        </form>
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'categories' " -->
+    <ion-list no-lines *ngSwitchCase="'Motoristas Ativos'">
+      <ion-item-sliding *ngFor="let driver of drivers | async">
+
+        <ion-item *ngIf="driver.state === 'ativo'">
+          <ion-avatar item-left (click)="onDriverDetails(driver)">
+            <img [src]="driver.photo || 'assets/images/no-image.png'">
+          </ion-avatar>          
+          <h3 text-uppercase>Motorista: <b>{{ driver.name }}</b></h3>
+          <h3 text-uppercase>Status: <b>{{ driver.state }}</b></h3>
+        </ion-item>
+
+      <ion-item-options side="left">      
+        <button ion-button color="primary" (click)="onDriverUpdateFoto(driver)">
+          <ion-icon name="images"></ion-icon>
+          Atualizar
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="onDriverUpdate(driver)">
+          <ion-icon name="document"></ion-icon>
+          Atualizar
+        </button>
+
+        <button ion-button color="danger" (click)="onDriverDelete(driver)">        
+          <ion-icon name="trash"></ion-icon>
+          Deletar
+        </button>
+
+      </ion-item-options>       
+
+      </ion-item-sliding>      
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'categories' " -->
+    <ion-list no-lines *ngSwitchCase="'Motoristas Bloqueados'">
+      <ion-item-sliding *ngFor="let driver of drivers | async">
+
+        <ion-item *ngIf="driver.state === 'bloqueado'">
+          <ion-avatar item-left (click)="onDriverDetails(driver)">
+            <img [src]="driver.photo || 'assets/images/no-image.png'">
+          </ion-avatar>          
+          <h3 text-uppercase>Motorista: <b>{{ driver.name }}</b></h3>
+          <h3 text-uppercase>Status: <b>{{ driver.state }}</b></h3>
+        </ion-item>
+
+      <ion-item-options side="left">      
+        <button ion-button color="primary" (click)="onDriverUpdateFoto(driver)">
+          <ion-icon name="images"></ion-icon>
+          Atualizar
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="onDriverUpdate(driver)">
+          <ion-icon name="document"></ion-icon>
+          Atualizar
+        </button>
+
+        <button ion-button color="danger" (click)="onDriverDelete(driver)">        
+          <ion-icon name="trash"></ion-icon>
+          Deletar
+        </button>
+
+      </ion-item-options>       
+
+      </ion-item-sliding>      
+    </ion-list>
+
+  </div>
+
+  <ion-refresher (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+</ion-content>
+

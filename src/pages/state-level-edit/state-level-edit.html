@@ -1,0 +1,70 @@
+<!--
+  Generated template for the StateLevelEditPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-user-add e view-user-list -->
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="Atualizar Status">
+        Atualizar
+      </ion-segment-button>
+      <!--
+      <ion-segment-button value="State Level List">
+        State Level List
+      </ion-segment-button>
+      -->
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <!-- <button ion-button block clear (click)="canEdit = !canEdit">Exibir/Ocultar formulário</button> -->
+
+  <form [formGroup]="stateLevelForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+    <ion-item>
+      <ion-icon name="chatboxes" item-left color="primary"></ion-icon>
+      <ion-input type="text" formControlName="name" placeholder="Nome" [(ngModel)]="currentState.name" text-uppercase required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="chatbubbles" item-left color="primary"></ion-icon>
+      <ion-input type="text" formControlName="description" placeholder="Descrição" [(ngModel)]="currentState.description" text-uppercase required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>
+      <ion-select formControlName="state" placeholder="Status" [(ngModel)]="currentState.state" text-uppercase required>
+        <ion-option value="ativo">ATIVO</ion-option>
+        <ion-option value="bloqueado">BLOQUEADO</ion-option>
+      </ion-select>  
+    </ion-item>
+
+    <!--
+    <ion-item>
+      <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+      <ion-select placeholder="Status" formControlName="state" text-uppercase minlenght="1" required>
+        <ion-option *ngFor="let state of statesgeneral | async" [value]="state.name">{{ state.name }}</ion-option>
+      </ion-select>  
+    </ion-item>
+    -->     
+
+    <progress-bar *ngIf="uploadProgress" [progress]="uploadProgress"></progress-bar>
+
+    <br>
+    <button ion-button round block color="primary" type="submit" [disabled]="stateLevelForm.invalid">Salvar</button>
+
+  </form>
+
+</ion-content>
+

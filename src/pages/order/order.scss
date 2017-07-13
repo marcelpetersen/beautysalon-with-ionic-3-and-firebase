@@ -1,0 +1,73 @@
+page-order {
+
+    .color-title{
+        width: 150px;
+        height: 30px;
+        font-size: 12px;        
+        padding-top: 9px;
+        padding-left: 0px;
+        padding-right: 10px;
+        padding-bottom: 4px;
+        color: #2196F3;
+        background-color:#F9FBE7;
+    }
+
+    .color-status-agendado{
+        width: 100px;
+        height: 30px;        
+        font-size: 10px;
+        padding-top: 9px;
+        padding-left: 23px;
+        padding-right: 5px;
+        padding-bottom: 4px;
+        color: #004D40;
+        border-radius: 50%;
+        background-color:#B2DFDB;
+    }
+
+    .color-status-realizado{
+        width: 100px;
+        height: 30px;        
+        font-size: 10px;
+        padding-top: 9px;
+        padding-left: 23px;
+        padding-right: 5px;
+        padding-bottom: 4px;
+        color: #004D40;
+        border-radius: 50%;
+        background-color:#B2DFDB;
+    }
+
+    .color-status-cancelado{
+        width: 100px;
+        height: 30px;           
+        font-size: 10px;
+        padding-top: 9px;
+        padding-left: 20px;
+        padding-right: 5px;
+        padding-bottom: 4px;
+        color: #D50000;
+        border-radius: 50%;        
+        background-color:#FFCDD2;
+
+    }
+
+    .color-button-agendado{
+        width: 100px;
+        background-color:#FFE0B2;
+        border-radius: 50%;
+    }
+
+    .color-button-realizado{
+        width: 100px;
+        background-color:#B2DFDB;
+        border-radius: 50%;
+    }
+
+    .color-button-cancelado{
+        width: 100px;
+        background-color:#FFCDD2;
+        border-radius: 50%;
+    }
+
+}

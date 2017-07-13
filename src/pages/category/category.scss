@@ -1,0 +1,56 @@
+page-category {
+
+    .color-title{
+        width: 150px;
+        height: 30px;
+        font-size: 12px;        
+        padding-top: 9px;
+        padding-left: 0px;
+        padding-right: 10px;
+        padding-bottom: 4px;
+        color: #2196F3;
+    }
+
+    .color-status-ativo{
+        width: 100px;
+        height: 30px;        
+        font-size: 10px;
+        padding-top: 9px;
+        padding-left: 32px;
+        padding-right: 5px;
+        padding-bottom: 4px;
+        color: #004D40;
+        border-radius: 50%;
+        background-color:#B2DFDB;
+    }
+
+    .color-status-bloqueado{
+        width: 100px;
+        height: 30px;           
+        font-size: 10px;
+        padding-top: 6px;
+        padding-left: 10px;
+        padding-right: 5px;
+        padding-bottom: 4px;
+        color: #D50000;
+        border-radius: 50%;        
+        background-color:#FFCDD2;
+
+    }
+
+    .color-button-active{
+        width: 105px;
+        height: 20px;    
+        background-color:#B2DFDB;
+        border-radius: 50%;
+    }
+
+    .color-button-block{
+        width: 155px;
+        height: 20px;    
+        background-color:#FFCDD2;
+        border-radius: 50%;
+    }
+
+
+}

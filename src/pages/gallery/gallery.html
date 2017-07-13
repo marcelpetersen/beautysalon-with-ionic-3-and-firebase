@@ -1,0 +1,172 @@
+<!--
+  Generated template for the GalleryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <!-- Com o "capitalize:true" Queremos que apenas o "PRIMEIRO  caractere do "TITLE" seja transformado em "MAIÚSCULO" -->
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <!-- Alternar entre view-user-add e view-user-list -->
+    <ion-segment [(ngModel)]="view">
+
+      <ion-segment-button value="Cadastrar Foto">
+        <!-- <ion-icon name="add-circle" item-top color="primary"></ion-icon> -->
+        Cadastrar
+      </ion-segment-button>
+      <ion-segment-button value="Exibir Galeria">
+        <!-- <ion-icon name="checkmark-circle" item-center color="primary"></ion-icon>  -->
+        Exibir
+      </ion-segment-button>
+
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
+  </ion-toolbar>  
+
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Switch vai ficar ouvindo a nossa propriedade "[(ngModel)]="view"" -->
+  <div [ngSwitch]="view">
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'category-add' " -->
+    <ion-list no-lines *ngSwitchCase="'Cadastrar Foto'">
+        <form [formGroup]="galleryForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+          
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+            <ion-select formControlName="category" placeholder="Categoria" text-uppercase minlenght="1" required>
+              <ion-option *ngFor="let category of categories | async" [value]="category.name">{{ category.name }}</ion-option>
+            </ion-select>  
+          </ion-item>
+          
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Nome da foto" formControlName="name" text-uppercase minlenght="1" required name="name" [(ngModel)]="name"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="text" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Descrição da foto" formControlName="description" text-uppercase></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="image" item-left color="primary"></ion-icon>
+            <input type="file" accept="image/*" (change)="onPhoto($event)" required />
+          </ion-item>
+
+          <progress-bar *ngIf="uploadProgress" [progress]="uploadProgress"></progress-bar>
+
+          <ion-item>
+            <ion-card>
+              <!-- <img [src]="image" *ngIf="image" style="margin: 10px;"> -->
+              <img [src]="image" *ngIf="image">
+            </ion-card>        
+          </ion-item>          
+                    
+          <!--
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>
+            <ion-select placeholder="Status" formControlName="state" text-uppercase minlenght="1" required>
+              <ion-option value="ativo" selected="true">ATIVO</ion-option>
+              <ion-option value="bloqueado">BLOQUEADO</ion-option>
+            </ion-select>  
+          </ion-item>         
+
+          <ion-item>
+            <ion-icon name="list-box" item-left color="primary"></ion-icon>     
+            <ion-select placeholder="Status" formControlName="state" text-uppercase minlenght="1" required>
+              <ion-option *ngFor="let state of statesgeneral | async" [value]="state.name">{{ state.name }}</ion-option>
+            </ion-select>  
+          </ion-item>
+          -->
+
+          <br>
+
+          <button ion-button round block color="primary" type="submit" [disabled]="galleryForm.invalid">Salvar</button>
+
+        </form>
+
+    </ion-list>
+
+    <!-- Caso o valor da propriedade " [(ngModel)]="view" == 'categories' " -->
+    <ion-list no-lines *ngSwitchCase="'Exibir Galeria'">
+      <ion-item-sliding *ngFor="let gallery of galleries | async">
+                
+        <ion-item>
+          <ion-card> <!-- (click)="onGalleryDetails(gallery)" -->
+            <ion-card-title text-center>
+              <ion-row>              
+                <ion-col center text-center (click)="onGalleryDetails(gallery)">
+                  <ion-note>
+                    <h2 text-uppercase><b> {{ gallery.category }} </b></h2>
+                  </ion-note>
+                </ion-col>
+              </ion-row>                            
+            </ion-card-title>
+            <img [src]="gallery.photo || 'assets/images/no-image.png'">
+            <ion-card-content>
+
+              <!--
+              Categoria:<p text-uppercase><b>{{ gallery.category }}</b></p>
+              Título:  <p text-uppercase><b>{{ gallery.name }}</b></p>
+              Descrição: <p text-uppercase><b>{{ gallery.description }}</b></p>
+              -->
+
+              <ion-row>              
+                <ion-col>
+                  <ion-note>
+                    Título:  <p text-uppercase><b>{{ gallery.name }}</b></p>
+                  </ion-note>
+                </ion-col>
+              </ion-row>
+              <ion-row>              
+                <ion-col center text-center (click)="onGalleryDetails(gallery)">
+                  <ion-note>
+                    Clique aqui para saber os detalhes...
+                  </ion-note>
+                </ion-col>
+              </ion-row>
+
+            </ion-card-content>
+          </ion-card>          
+        </ion-item>
+
+        <ion-item-options side="left">      
+          <button ion-button color="primary" (click)="onGalleryUpdateFoto(gallery)">
+            <ion-icon name="images"></ion-icon>
+            Atualizar
+          </button>
+        </ion-item-options>
+
+        <ion-item-options side="right">
+          <button ion-button color="primary" (click)="onGalleryUpdate(gallery)">
+            <ion-icon name="document"></ion-icon>
+            Atualizar
+          </button>
+
+          <button ion-button color="danger" (click)="onGalleryDelete(gallery)">        
+            <ion-icon name="trash"></ion-icon>
+            Deletar
+          </button>
+        </ion-item-options>       
+
+      </ion-item-sliding>      
+    </ion-list>
+
+  </div>
+
+  <ion-refresher (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+</ion-content>
+

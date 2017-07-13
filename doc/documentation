@@ -1,0 +1,342 @@
+# Service Management System With Ionic 3, Angular 4 And Firebase
+
+# Criação de um novo projeto
+
+    ionic start appname blank --cordova
+
+# Instalei as seguintes dependências "firebase" e "angularfire2" versões apresentadas no curso professor Plínio
+
+    npm install firebase@3.7.4 angularfire2@2.0.0-beta.8 --save
+
+# Foi necessário fazer o import manualmente do "HttpModule" no arquivo "app.module.ts" com forme apresentado abaixo
+
+    import { HttpModule } from "@angular/http";
+    ...
+    
+    @NgModule({
+    declarations: [
+        MyApp,
+        HomePage
+        ...
+    ],
+    imports: [
+        BrowserModule,        
+        HttpModule,
+        IonicModule.forRoot(MyApp),
+        AngularFireModule.initializeApp( firebaseAppConfig )
+    ],
+
+    ...
+
+# Todas as páginas estão com seus respectivos arquivos inclusive "pagename.module.ts"
+
+    ionic g page pagename
+
+    gerando os seguintes arquivos
+
+        pagename.html
+        pagename.module.ts
+        pagename.scss
+        pagename.ts
+
+# Páginas onde são chamado o "firebase" EXEMPLO:"firebase.Promise<FirebaseAuthState>" precisam ser declarados o import do "firebase"
+
+        import * as firebase from 'firebase';
+
+# Build projeto produção para WEB BROWSER
+	
+	ferramentas	e as versões que utilizei nesse projeto
+
+    @ionic/cli-utils : 1.4.0
+    Cordova CLI      : 7.0.1
+    Ionic CLI        : 3.4.0
+
+    local packages:
+
+    @ionic/app-scripts              : 1.3.7
+    @ionic/cli-plugin-cordova       : 1.4.0
+    @ionic/cli-plugin-ionic-angular : 1.3.1
+    Cordova Platforms               : browser 4.1.0
+    Ionic Framework                 : ionic-angular 3.4.2
+
+    System:
+
+    Node       : v6.11.0
+    OS         : Windows 10
+    Xcode      : not installed
+    ios-deploy : not installed
+    ios-sim    : not installed
+    npm        : 3.10.10
+				
+# Remover plataforma
+	
+    ionic cordova platform remove browser --save
+    ionic cordova platform remove android --save
+		
+# Adicionar plataforma
+	
+    ionic cordova platform add browser --save
+    ionic cordova platform add android --save
+	
+# Instalar plugins via "npm"
+	
+    npm install firebase@3.7.4 angularfire2@2.0.0-beta.8 --save
+	
+# Remover diretório node_modules
+	
+    rm -rf node_modules/
+	
+# Adicionar diretório node_modules
+
+    npm install	
+
+# Atualizações adicionais
+
+  Como eu criei o projeto usando a seguinte linha de comando
+  
+    ionic start appname blank --cordova
+    
+    o próprio Ionic instalou as dependências abaixo automaticamente.
+    Então não precisei instalar elas manualmente como normalmente é feito com algumas dependências
+    
+      npm install --save-dev --save-exact @ionic/cli-plugin-ionic-angular@latest
+      npm install --save-dev --save-exact @ionic/cli-plugin-cordova@latest
+
+# Gerar build produção web	
+	
+    npm run build prod
+
+# Configurações Firebase
+
+    //Login no firebase
+    firebase login
+
+    //Iniciar o firebase
+    firebase init
+
+    //Adicionar um novo projeto
+    firebase use --add
+        default
+
+    //Remover projeto exisrtente
+    firebase use --unalias default
+
+    //Startando o app via firebase para depois iniciar o "firebase deploy"
+    firebase serve
+
+# Deploy Firebase Host - Esses foram os passo que apareceram durante o meu processo de deploy
+
+    npm install -g firebase-tools       
+		
+    firebase login
+
+    Tive que adicionar manualmente o meu projeto firebase
+
+        firebase use --add 
+
+    Pressionar o "ENTER" como opção para pergunta
+    
+        ENTER    
+		
+    firebase init
+
+    Pressionar ENTER ou "yes"
+
+    Três Opções disponíveis    
+        escolher a terceira opção
+            Hosting: Configure and deploy Firebase Hostong Sites
+		
+    Escolhendo o diretório público default para o Ionic
+        Se não estivermos usando o cordova
+            public = www
+
+        Se estivermos usando o cordova        
+            public = platforms/browser/www
+
+    Escolher a opção "NÃO" para pergunta
+        configure a singlo page?
+            Não
+
+    Escolher a opção "NÃO" para pergunta
+        404.html exists.Overwrite?
+            Não
+
+    Escolher a opção "NÃO" para pergunta
+        already exists.Overwrite?
+            Não
+
+    Executar o seguinte comando 
+
+        firebase deploy
+		
+
+# Repositório github
+
+    Comandos para fazer upload de arquivos para o github - Processo que costumo utilizar
+
+	    git clone git@github.com:usuario/repositoriogithub.git
+
+        git init
+        git add -A
+        git commit -m "Service Management System with Ionic 3 And Firebase" --no-gpg-sign
+        git push origin master
+
+# Push Notification
+
+    //Instalar dependência para notificação a nível de servidor/host
+    ionic cordova plugin add phonegap-plugin-push --variable SENDER_ID=313293940127
+    npm install --save @ionic-native/push
+
+# Local Notification
+
+    //Instalar dependência para notificação a nível local/cliente
+    ionic cordova plugin add de.appplant.cordova.plugin.local-notification
+    npm install --save @ionic-native/local-notifications
+
+# 
+
+# Regras Firebase - Realtime Database
+
+    {
+        "rules": {
+            ".read": "auth != null",
+            ".write": "auth != null",
+
+            "categories": {    
+                "$categories_list_key" : {
+                    ".indexOn": "name"
+                }
+            },
+
+            "customers": {     
+                "$customers_list_key" : {
+                    ".indexOn": "name"
+                }
+            },
+
+            "drivers": {     
+                "$drivers_list_key" : {
+                    ".indexOn": "name"
+                }
+            },
+
+            "galleries": {     
+                "$drivers_list_key" : {
+                    ".indexOn": "name"
+                }
+            },
+
+            "statesgeneral": {     
+                "$drivers_list_key" : {
+                    ".indexOn": "name"
+                }
+            },
+
+            "stateslevel": {     
+                "$drivers_list_key" : {
+                    ".indexOn": "name"
+                }
+            },
+
+            "statesorder": {     
+                "$drivers_list_key" : {
+                    ".indexOn": "name"
+                }
+            },
+
+            "orders": {           
+                "$orders_list_key" : {
+                    "$orders_list_push_key" : {
+                                ".indexOn": ["client", "state"]
+                    }        
+                }
+            },           
+
+            "users": {
+                ".read": true,
+                ".write": true,      
+            ".indexOn": ["username", "name"]
+            },  
+
+        }
+
+    }
+
+        
+# Reutilização de código para projetos futuros
+
+    alterar referência firebase no projeto no arquivo "app.modules.ts"
+        export const firebaseAppConfig = {
+            apiKey: "xxxxxx",
+            authDomain: "xxxxxx.firebaseapp.com",
+            databaseURL: "https:/xxxxxx.firebaseio.com",
+            projectId: "xxxxxx",
+            storageBucket: "xxxxxx.appspot.com",
+            messagingSenderId: "xxxxxx" 
+        }
+
+    alterar senderID firebase Push Notification no projeto no arquivo "app.component.ts"
+        pushsetup(){
+            const options: PushOptions = {
+                android: {
+                    senderID: '313293940127'
+                }
+            }
+        }
+
+    deletar platforms
+        browser
+        android
+
+    deletar arquivos Firebase
+        .firebaserc
+        .firebase.json
+
+    instalar plugins - alterar id referente ao projeto no Firebase
+        ionic cordova plugin add phonegap-plugin-push --variable SENDER_ID=313293940127
+        npm install --save @ionic-native/push
+        
+        ionic cordova plugin add de.appplant.cordova.plugin.local-notification
+        npm install --save @ionic-native/local-notifications
+
+    refatorar o código para depois dar prosseguimento    
+        package.json
+            title="projectname"
+            id="br.com.hellkaydevelopers.projectname"
+        config.xml
+            title="projectname"
+        assets
+            images
+				logo.png
+				nameProject.png
+        app
+            all files            
+        models
+            model.ts
+        pages
+            order.html
+                remover input="motorista"
+            order.ts
+                remover input="motorista"
+            signin.html
+                logo.png
+        components
+            menu.html
+            menu.ts
+        providers
+            provider.ts
+        pipes
+            pipe.ts
+            
+    adicionar platforms
+        browser
+        android
+
+    instalar dependências e plugins
+        npm install
+
+    gerar build produção
+        npm run build prod
+
+    deploy firebase
+        firebase init

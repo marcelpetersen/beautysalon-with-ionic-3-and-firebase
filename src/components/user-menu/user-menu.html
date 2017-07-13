@@ -1,0 +1,103 @@
+<ion-content>
+  
+  <user-info [user]="currentUser" [isMenu]="true"></user-info>
+
+  <ion-list no-lines>
+    
+    <!-- Página Inicial -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenInitialPage()">      
+      <ion-icon name="home" item-left color="primary"></ion-icon>
+      <label>Início</label>
+    </button>
+
+    <!-- Página  Chat -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenHomePage()">      
+      <ion-icon name="text" item-left color="primary"></ion-icon>
+      <label>Chat</label>
+    </button>
+
+    <!-- Página Categoria -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenCategoryPage()">      
+      <label>Categoria</label>
+      <ion-icon name="clipboard" item-left color="primary"></ion-icon>
+    </button>
+
+    <!-- Página Cliente -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenClientPage()">      
+      <label>Cliente</label>
+      <ion-icon name="person" item-left color="primary"></ion-icon>
+    </button>
+
+    <!-- Página Motorista -->
+    <!--
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenDriverPage()">
+      Motorista
+      <ion-icon name="car" item-left color="primary"></ion-icon>
+    </button>
+    -->
+
+    <!-- Página Pedido -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenOrderPage()">
+      Pedido
+      <ion-icon name="contract" item-left color="primary"></ion-icon>
+    </button>
+
+    <!-- Página Galeria -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenGalleryPage()">
+      Galeria
+      <ion-icon name="images" item-left color="primary"></ion-icon>
+    </button>
+
+    <!-- Página Usuário -->
+    <!--
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenUserPage()">
+      Usuário
+      <ion-icon name="contact" item-left color="primary"></ion-icon>
+    </button>
+    -->
+
+    <!-- Página Status Geral -->
+    <!--
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenStateGeneralPage()">
+      Status Geral
+      <ion-icon name="stats" item-left color="primary"></ion-icon>
+    </button>
+    -->
+
+    <!-- Página Status Pedido -->
+    <!--
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenStateOrderPage()">
+      Status Pedido
+      <ion-icon name="stats" item-left color="primary"></ion-icon>
+    </button>
+    -->
+
+    <!-- Página Status Nível -->
+    <!--
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenStateLevelPage()">
+      Status Level
+      <ion-icon name="stats" item-left color="primary"></ion-icon>
+    </button>
+    -->
+  
+    <!-- Página Perfil -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onOpenUserProfilePage()">
+      Perfil
+      <ion-icon name="photos" item-left color="primary"></ion-icon>
+    </button>
+
+    <!-- Página Sobre -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onSobre()">
+      Sobre
+      <ion-icon name="information-circle" item-left color="primary"></ion-icon>
+    </button>
+
+    <!-- Página Sair -->
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onLogout()">
+      Sair
+      <ion-icon name="log-out" item-left color="primary"></ion-icon>
+    </button>
+
+  </ion-list>
+
+</ion-content>

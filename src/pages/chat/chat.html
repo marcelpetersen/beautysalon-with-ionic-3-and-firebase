@@ -1,0 +1,36 @@
+<!--
+  Generated template for the ChatPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <!-- Aqui é recuperado o nome do destinatário e atribuímos ao nome da página como título, ver "chat.ts" método "ionViewDidLoad()" -->
+  <custom-logged-header [title]="pageTitle" [user]="recipient"></custom-logged-header>
+
+</ion-header>
+
+<ion-content padding>
+
+  <message-box *ngFor="let m of messages | async" [message]="m" [isFromSender]="(m.userId === sender.$key)"></message-box>
+
+</ion-content>
+
+<ion-footer>
+
+  <ion-toolbar>
+    <!-- Diretivas que podemos usar, pesquisar mais sobre diretivas... no-lines,  item-right, item-left, text-center -->
+    <ion-item no-lines>
+      <!-- "[(ngModel)]="newMessage" isso é um "two-way data binding" para uma propriedade chamada "newMessage" -->
+      <!-- "(keyup.enter)="sendMessage(newMessage);" isso é um "event binding" para uma propriedade chamada "sendMessage" quando o "ENTER" do teclado é pressionado-->
+      <ion-input type="text" (keyup.enter)="sendMessage(newMessage); newMessage=''" placeholder="Digite aqui..." autofocus [(ngModel)]="newMessage"></ion-input>
+      <!-- Após o envio dos dados do "input" limpamos os dados do próprio "input" com a variável "newMessage=''" -->
+      <button ion-button item-right (click)="sendMessage(newMessage); newMessage=''">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-toolbar>
+
+</ion-footer>
